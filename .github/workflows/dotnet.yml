@@ -21,25 +21,23 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Ensures the full repo is checked out
+          fetch-depth: 0  # Pulls entire repo
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '6.0.x'
 
-      - name: List files for debugging
+      - name: List files for debugging (Windows compatible)
         run: |
-          echo "Current Directory: $(pwd)"
-          ls -la
-          echo "Listing contents of project folder:"
-          ls -la ./PopulationReportingSystem.sln
+          Write-Output "Current Directory: $(Get-Location)"
+          Get-ChildItem -Force -Recurse
 
       - name: Restore dependencies
-        run: dotnet restore PopulationReportingSystem.sln
+        run: dotnet restore ./PopulationReportingSystem.sln
 
       - name: Build the project
-        run: dotnet build PopulationReportingSystem.sln --configuration Release
+        run: dotnet build ./PopulationReportingSystem.sln --configuration Release
 
       - name: Run tests (if available)
-        run: dotnet test PopulationReportingSystem.sln --no-build --verbosity normal
+        run: dotnet test ./PopulationReportingSystem.sln --no-build --verbosity normal

@@ -17,13 +17,13 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # Matches your current project framework
+          dotnet-version: '6.0.x'
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore PopulationReportingSystem.sln
 
       - name: Build the project
-        run: dotnet build --configuration Release
+        run: dotnet build PopulationReportingSystem.sln --configuration Release
 
       - name: Run tests (if available)
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test PopulationReportingSystem.sln --no-build --verbosity normal

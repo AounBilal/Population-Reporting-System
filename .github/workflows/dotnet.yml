@@ -2,9 +2,16 @@ name: .NET Build and Test
 
 on:
   push:
-    branches: [ main, develop ]
+    branches:
+      - main
+      - develop
+      - 'feature/**'
+      - 'release/**'
+      - 'hotfix/**'
   pull_request:
-    branches: [ main, develop ]
+    branches:
+      - main
+      - develop
 
 jobs:
   build:
@@ -19,14 +26,19 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
-      - name: Verify directory structure
-        run: ls -R
+      - name: List files for debugging
+        run: |
+          echo "Current Directory: $(pwd)"
+          ls -R
 
       - name: Restore dependencies
-        run: dotnet restore PopulationReportingSystem.sln
+        run: dotnet restore
+        working-directory: ${{ github.workspace }}
 
       - name: Build the project
         run: dotnet build PopulationReportingSystem.sln --configuration Release
+        working-directory: ${{ github.workspace }}
 
       - name: Run tests (if available)
         run: dotnet test PopulationReportingSystem.sln --no-build --verbosity normal
+        working-directory: ${{ github.workspace }}

@@ -19,6 +19,9 @@ jobs:
         with:
           dotnet-version: '6.0.x'
 
+      - name: Verify directory structure
+        run: ls -R
+
       - name: Restore dependencies
         run: dotnet restore PopulationReportingSystem.sln
 

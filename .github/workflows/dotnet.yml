@@ -32,14 +32,10 @@ jobs:
           ls -R
 
       - name: Restore dependencies
-        run: dotnet restore
-        working-directory: ${{ github.workspace }}
+        run: dotnet restore ./PopulationReportingSystem.sln
 
       - name: Build the project
-        run: dotnet build PopulationReportingSystem.sln --configuration Release
-        working-directory: ${{ github.workspace }}
+        run: dotnet build ./PopulationReportingSystem.sln --configuration Release
 
       - name: Run tests (if available)
-        run: dotnet test PopulationReportingSystem.sln --no-build --verbosity normal
-        working-directory: ${{ github.workspace }}
-
+        run: dotnet test ./PopulationReportingSystem.sln --no-build --verbosity normal

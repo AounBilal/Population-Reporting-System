@@ -42,3 +42,4 @@ jobs:
       - name: Run tests (if available)
         run: dotnet test PopulationReportingSystem.sln --no-build --verbosity normal
         working-directory: ${{ github.workspace }}
+

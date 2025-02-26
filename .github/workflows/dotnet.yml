@@ -1,13 +1,11 @@
-name: .NET Build and Test
+name: .NET Build & Test
 
 on:
   push:
     branches:
       - main
       - develop
-      - 'feature/**'
-      - 'release/**'
-      - 'hotfix/**'
+      - feature/*
   pull_request:
     branches:
       - main
@@ -15,29 +13,27 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Ensures the full repo is checked out
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # Matches your project
+          dotnet-version: '6.0'  # Matches your project
 
       - name: Verify file structure (Debugging Step)
         run: |
-          echo "Current Directory: $(Get-Location)"
-          Get-ChildItem -Recurse
+          echo "Current Directory: $(pwd)"
+          ls -R  # Lists all files to check if .sln exists
 
       - name: Restore dependencies
         run: dotnet restore PopulationReportingSystem.sln
 
-      - name: Build the project
-        run: dotnet build PopulationReportingSystem.sln --configuration Release
+      - name: Build project
+        run: dotnet build PopulationReportingSystem.sln --no-restore --configuration Release
 
-      - name: Run tests (if available)
+      - name: Run Tests
         run: dotnet test PopulationReportingSystem.sln --no-build --verbosity normal
